@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.course.dao.OpenTimeDao">
+
+    <resultMap id="openTimeMap" type="com.course.entity.OpenTime">
+        <id property="id" column="id"/> <!--id-->
+        <result property="startTime" column="startTime"/>
+        <result property="endTime" column="endTime"/>
+    </resultMap>
+
+    <insert id="addOpenTime" parameterType="map">
+        insert into opentime(id,startTime,endTime) values(1,#{startTime},#{endTime})
+    </insert>
+
+    <!--<update id="addOpenTime" parameterType="map">-->
+        <!--update opentime set startTime=#{startTime},endTime=#{endTime} where id=1-->
+    <!--</update>-->
+
+    <select id="queryOpenTime" resultType="com.course.entity.OpenTime">
+        select * from opentime where id=1
+    </select>
+
+    <update id="modifyOpenTime" parameterType="map">
+        update opentime set startTime=#{startTimes},endTime=#{endTimes} where id=1
+    </update>
+
+    <delete id="deleteOpenTime">
+        delete from opentime where id=1;
+    </delete>
+</mapper>

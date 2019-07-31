@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.course.dao.CourseDao">
+
+    <resultMap id="courseMap" type="com.course.entity.Course">
+        <id property="cno" column="cno"/> <!--id-->
+        <result property="cname" column="cname"/>
+        <result property="cteacher" column="cteacher"/>
+        <result property="ctotalnum" column="ctotalnum"/>
+        <result property="crestnum" column="crestnum"/>
+        <result property="ccollege" column="ccollege"/>
+        <result property="cgrade" column="cgrade"/>
+    </resultMap>
+
+    <select id="queryAllCourse" resultType="com.course.entity.Course">
+        select * from course
+    </select>
+
+    <select id="getTotalCount" resultType="int">
+        select count(*) as num from course
+    </select>
+
+    <select id="queryListByPage" parameterType="map" resultType="com.course.entity.Course">
+        select * from course limit #{startIndex},#{pageSize}
+    </select>
+
+    <insert id="addCourse" parameterType="com.course.entity.Course">
+        insert into course(cno,cname,cteacher,ctotalnum,crestnum,ccollege,cgrade) values(#{cno},#{cname},#{cteacher},#{ctotalnum},#{crestnum},#{ccollege},#{cgrade})
+    </insert>
+
+    <update id="updateById" parameterType="com.course.entity.Course">
+        update course set cname=#{cname},cteacher=#{cteacher},ctotalnum=#{ctotalnum},crestnum=#{crestnum},ccollege=#{ccollege},cgrade=#{cgrade} where cno=#{cno}
+    </update>
+
+    <delete id="deleteById" parameterType="String">
+        delete from course where cno=#{cno}
+    </delete>
+
+    <select id="queryByCond" resultType="com.course.entity.Course">
+        select * from course where 1=1
+        <if test="cno!=null and cno!=''">
+            and cno=#{cno}
+        </if>
+        <if test="cname!=null and cname!=''">
+            and cname like concat('%',#{cname},'%')
+        </if>
+        <if test="cteacher!=null and cteacher!=''">
+            and cteacher like concat('%',#{cteacher},'%')
+        </if>
+        <if test="ccollege!=null and ccollege!=''">
+            and ccollege like concat('%',#{ccollege},'%')
+        </if>
+        <if test="cgrade!=null and cgrade!=''">
+            and cgrade like concat('%',#{cgrade},'%')
+        </if>
+    </select>
+
+    <select id="getTotalCountByCond" resultType="int">
+        select count(*) as num from course where 1=1
+        <if test="cno!=null and cno!=''">
+            and cno=#{cno}
+        </if>
+        <if test="cname!=null and cname!=''">
+            and cname like concat('%',#{cname},'%')
+        </if>
+        <if test="cteacher!=null and cteacher!=''">
+            and cteacher like concat('%',#{cteacher},'%')
+        </if>
+        <if test="ccollege!=null and ccollege!=''">
+            and ccollege like concat('%',#{ccollege},'%')
+        </if>
+        <if test="cgrade!=null and cgrade!=''">
+            and cgrade like concat('%',#{cgrade},'%')
+        </if>
+    </select>
+
+    <select id="queryByCondAndPage" parameterType="map" resultType="com.course.entity.Course">
+        select * from course where 1=1
+        <if test="cno!=null and cno!=''">
+            and cno=#{cno}
+        </if>
+        <if test="cname!=null and cname!=''">
+            and cname like concat('%',#{cname},'%')
+        </if>
+        <if test="cteacher!=null and cteacher!=''">
+            and cteacher like concat('%',#{cteacher},'%')
+        </if>
+        <if test="ccollege!=null and ccollege!=''">
+            and ccollege like concat('%',#{ccollege},'%')
+        </if>
+        <if test="cgrade!=null and cgrade!=''">
+            and cgrade like concat('%',#{cgrade},'%')
+        </if>
+        limit #{startIndex},#{pageSize}
+    </select>
+
+    <select id="queryCourseFull" resultType="com.course.entity.Course">
+        select * from course where crestnum=0
+    </select>
+
+    <select id="queryCourseSelectedBySno" parameterType="String" resultType="com.course.entity.Course">
+        select cno from selectcourse where sno=#{sno}
+    </select>
+
+    <update id="pickCourseBeforeSub1" parameterType="map">
+        update course set crestnum=#{crestnum} where cno=#{cno}
+    </update>
+
+    <insert id="pickCourse" parameterType="map">
+        insert into selectcourse(sno,cno) values(#{sno},#{cno})
+    </insert>
+
+    <delete id="retiredCourse" parameterType="map">
+        delete from selectcourse where sno=#{sno} and cno=#{cno}
+    </delete>
+
+    <select id="queryPersonalCourseList" parameterType="String" resultType="com.course.entity.Course">
+        select course.cno,cname,cteacher from selectcourse,course where selectcourse.cno=course.cno and sno=#{sno}
+    </select>
+
+    <select id="getPersonalTotalCount" resultType="int">
+        select count(*) as num from selectcourse where sno=#{sno}
+    </select>
+
+    <select id="queryPersonalCourseByPage" parameterType="map" resultType="com.course.entity.Course">
+        select course.cno,cname,cteacher from selectcourse,course where selectcourse.cno=course.cno and sno=#{sno} limit #{startIndex},#{pageSize}
+    </select>
+</mapper>

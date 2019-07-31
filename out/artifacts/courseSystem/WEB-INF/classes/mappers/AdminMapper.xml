@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.course.dao.AdminDao">
+
+    <resultMap id="adminMap" type="com.course.entity.Admin">
+        <id property="ano" column="ano"/> <!--id-->
+        <result property="aname" column="aname"/>
+        <result property="apassword" column="apassword"/>
+        <result property="agender" column="agender"/>
+        <result property="aphone" column="aphone"/>
+        <result property="aaddress" column="aaddress"/>
+        <result property="aintroduction" column="aintroduction"/>
+    </resultMap>
+
+    <select id="verify" resultType="com.course.entity.Admin">
+        select * from admin where ano=#{ano} and apassword=#{apassword}
+    </select>
+
+    <select id="findById" resultType="com.course.entity.Admin">
+        select * from admin where ano=#{ano}
+    </select>
+
+    <update id="updateById" parameterType="com.course.entity.Admin">
+        update admin set aname=#{aname},apassword=#{apassword} where ano=#{ano}
+    </update>
+
+</mapper>

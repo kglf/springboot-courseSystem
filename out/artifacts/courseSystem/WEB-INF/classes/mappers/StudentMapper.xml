@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.course.dao.StudentDao">
+
+    <resultMap id="studentMap" type="com.course.entity.Student">
+        <id property="sno" column="sno"/> <!--id-->
+        <result property="sname" column="sname"/>
+        <result property="spassword" column="spassword"/>
+        <result property="scollege" column="scollege"/>
+        <result property="sgrade" column="sgrade"/>
+        <result property="sgender" column="sgender"/>
+        <result property="sphone" column="sphone"/>
+        <result property="saddress" column="saddress"/>
+        <result property="sintroduction" column="sintroduction"/>
+    </resultMap>
+
+    <select id="verify" resultType="com.course.entity.Student">
+        select * from student where sno=#{sno} and spassword=#{spassword}
+    </select>
+
+    <select id="findById" resultType="com.course.entity.Student">
+        select * from student where sno=#{sno}
+    </select>
+
+    <update id="updateById" parameterType="com.course.entity.Student">
+        update student set sname=#{sname},spassword=#{spassword},scollege=#{scollege},sgrade=#{sgrade} where sno=#{sno}
+    </update>
+
+</mapper>
